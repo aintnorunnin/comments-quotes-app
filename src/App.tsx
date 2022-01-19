@@ -4,6 +4,8 @@ import NewQuote from "./pages/NewQuote";
 import QuoteDetail from "./pages/QuoteDetail";
 import Quotes from "./pages/Quotes";
 import MainNavigation from "./components/layout/MainNavigation";
+import NotFound from "./pages/NotFound";
+import NotFoundPage from "./pages/NotFound";
 
 function App() {
   return (
@@ -18,11 +20,14 @@ function App() {
         <Route exact path="/quotes">
           <Quotes />
         </Route>
-        <Route path="/quotes/:quoteId">
+        <Route exact path="/quotes/:quoteId">
           <QuoteDetail />
         </Route>
-        <Route path="/newQuote">
+        <Route exact path="/newQuote">
           <NewQuote />
+        </Route>
+        <Route path="*">
+          <NotFoundPage />
         </Route>
       </Switch>
     </div>
