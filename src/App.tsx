@@ -20,10 +20,10 @@ function App() {
         <Route exact path="/quotes">
           <Quotes />
         </Route>
-        <Route exact path="/quotes/:quoteId">
+        <Route path="/quotes/:quoteId">
           <QuoteDetail />
         </Route>
-        <Route exact path="/newQuote">
+        <Route path="/newQuote">
           <NewQuote />
         </Route>
         <Route path="*">

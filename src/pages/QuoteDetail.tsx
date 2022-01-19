@@ -1,7 +1,6 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import HighlightedQuote from "../components/quotes/HighlightedQuote";
 import Comments from "../components/comments/Comments";
 import Quote from "../models/Quote";
@@ -28,16 +27,24 @@ const QuoteDetail = () => {
     const quoteId = params.quoteId;
   };
 
-  const quote: Quote | undefined = quotes.find((quote) => quote.id == params.quoteId);
+  const quote: Quote | undefined = quotes.find(
+    (quote) => quote.id == params.quoteId
+  );
 
   if (!quote) {
-    return <p>No Quote Found</p>
+    return <p>No Quote Found</p>;
   }
 
   return (
     <div>
       <h1>Quote Detail Page</h1>
+
       <HighlightedQuote author={quote!.author} text={quote!.text} />
+
+      <Route exact path={`/quotes/${params.quoteId}`}>
+        <Link to={`/quotes/${params.quoteId}/comments`}> Load Comments</Link>
+      </Route>
+
       <Route path={`/quotes/${params.quoteId}/comments`}>
         <Comments />
       </Route>
