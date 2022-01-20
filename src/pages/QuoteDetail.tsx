@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link, useParams } from "react-router-dom";
+import { Route, Link, useParams, useRouteMatch } from "react-router-dom";
 import { useState } from "react";
 import HighlightedQuote from "../components/quotes/HighlightedQuote";
 import Comments from "../components/comments/Comments";
@@ -18,8 +18,13 @@ const quotes: Quote[] = [
   },
 ];
 
+interface QuoteDetailURLParams {
+  quoteId: string;
+}
+
 const QuoteDetail = () => {
-  const params: any = useParams();
+  const params = useParams<QuoteDetailURLParams>();
+  const match = useRouteMatch();
   const [author, setAuthor] = useState("");
   const [text, setText] = useState("");
 
@@ -28,7 +33,7 @@ const QuoteDetail = () => {
   };
 
   const quote: Quote | undefined = quotes.find(
-    (quote) => quote.id == params.quoteId
+    (quote) => quote.id.toString() === params.quoteId
   );
 
   if (!quote) {
@@ -41,11 +46,11 @@ const QuoteDetail = () => {
 
       <HighlightedQuote author={quote!.author} text={quote!.text} />
 
-      <Route exact path={`/quotes/${params.quoteId}`}>
-        <Link to={`/quotes/${params.quoteId}/comments`}> Load Comments</Link>
+      <Route exact path={`${match.url}`}>
+        <Link to={`${match.url}/comments`}> Load Comments</Link>
       </Route>
 
-      <Route path={`/quotes/${params.quoteId}/comments`}>
+      <Route path={`${match.url}/comments`}>
         <Comments />
       </Route>
     </div>

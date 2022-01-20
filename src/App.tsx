@@ -4,7 +4,6 @@ import NewQuote from "./pages/NewQuote";
 import QuoteDetail from "./pages/QuoteDetail";
 import Quotes from "./pages/Quotes";
 import MainNavigation from "./components/layout/MainNavigation";
-import NotFound from "./pages/NotFound";
 import NotFoundPage from "./pages/NotFound";
 
 function App() {

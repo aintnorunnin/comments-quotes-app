@@ -18,9 +18,10 @@ const QuoteList: React.FC<QuoteListProps> = (props) => {
   const sortedQuotes = generateSortedQuotes(props.quotes, sortCardinality);
 
   function changeSorting() {
-    history.push(
-      "/quotes?sort=" + (sortCardinality === "asc" ? "desc" : "asc")
-    );
+    history.push({
+      pathname: location.pathname,
+      search: `?sort=${sortCardinality === "asc" ? "desc" : "asc"}`,
+    });
   }
 
   return (
