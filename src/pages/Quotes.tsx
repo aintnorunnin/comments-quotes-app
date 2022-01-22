@@ -1,25 +1,24 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import QuoteList from "../components/quotes/QuoteList";
-import Quote from "../models/Quote";
+import { QuotesState } from "../store/Quotes/quotes-slice";
+import { getQuotes } from "../store/Quotes/quotes-actions";
+import { useMemo } from "react";
 
-const quotes: Quote[] = [
-  {
-    id: 1,
-    author: "Brandon",
-    text: "Today I learned about React Routes",
-  },
-  {
-    id: 2,
-    author: "Garrick",
-    text: "Bust em up",
-  },
-];
+const Quotes = () => {
+  const quotesState: QuotesState = useSelector(
+    (storeState: any) => storeState.quotes
+  );
+  const quotes = useMemo(() => {
+    return quotesState.quotes;
+  }, [quotesState.quotes]);
 
-const Quotes = (props: any) => {
-  const [quotesFromDb, setQuotes] = useState([]);
+  const dispatch = useDispatch();
 
-  const retrieveQuotes = () => {};
+  useEffect(() => {
+    dispatch(getQuotes());
+  }, [dispatch]);
 
   return (
     <div>

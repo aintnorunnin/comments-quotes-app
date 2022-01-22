@@ -31,7 +31,7 @@ const QuoteForm: React.FC<QuoteFormProps> = (props) => {
     const quote: Quote = {
       author: enteredAuthor,
       text: enteredText,
-      id: Math.random(),
+      id: Math.floor(Math.random() * 9999999),
     };
 
     props.onAddQuote(quote);

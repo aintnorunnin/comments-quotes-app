@@ -1,22 +1,10 @@
 import React from "react";
 import { Route, Link, useParams, useRouteMatch } from "react-router-dom";
-import { useState } from "react";
 import HighlightedQuote from "../components/quotes/HighlightedQuote";
 import Comments from "../components/comments/Comments";
 import Quote from "../models/Quote";
-
-const quotes: Quote[] = [
-  {
-    id: 1,
-    author: "Brandon",
-    text: "Today I learned about React Routes",
-  },
-  {
-    id: 2,
-    author: "Garrick",
-    text: "Bust em up",
-  },
-];
+import { useSelector } from "react-redux";
+import { QuotesState } from "../store/Quotes/quotes-slice";
 
 interface QuoteDetailURLParams {
   quoteId: string;
@@ -25,14 +13,11 @@ interface QuoteDetailURLParams {
 const QuoteDetail = () => {
   const params = useParams<QuoteDetailURLParams>();
   const match = useRouteMatch();
-  const [author, setAuthor] = useState("");
-  const [text, setText] = useState("");
+  const quotesState: QuotesState = useSelector(
+    (storeState: any) => storeState.quotes
+  );
 
-  const retrieveQuote = () => {
-    const quoteId = params.quoteId;
-  };
-
-  const quote: Quote | undefined = quotes.find(
+  const quote: Quote | undefined = quotesState.quotes.find(
     (quote) => quote.id.toString() === params.quoteId
   );
 
@@ -51,7 +36,7 @@ const QuoteDetail = () => {
       </Route>
 
       <Route path={`${match.url}/comments`}>
-        <Comments />
+        <Comments quoteId={quote.id}/>
       </Route>
     </div>
   );

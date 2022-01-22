@@ -1,4 +1,5 @@
 import React from "react";
+import { useMemo } from "react";
 import { Fragment } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Quote from "../../models/Quote";
@@ -14,8 +15,14 @@ const QuoteList: React.FC<QuoteListProps> = (props) => {
   const history = useHistory();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const sortCardinality = queryParams.get("sort");
-  const sortedQuotes = generateSortedQuotes(props.quotes, sortCardinality);
+
+  const sortCardinality = useMemo(() => {
+    return queryParams.get("sort");
+  }, [queryParams.get("sort")]);
+
+  const sortedQuotes = useMemo(() => {
+    return generateSortedQuotes([...props.quotes], sortCardinality);
+  }, [props.quotes, sortCardinality]);
 
   function changeSorting() {
     history.push({

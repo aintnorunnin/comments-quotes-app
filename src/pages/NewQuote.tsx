@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import QuoteForm from "../components/quotes/QuoteForm";
 import Quote from "../models/Quote";
+import { QuotesState } from "../store/Quotes/quotes-slice";
+import { addQuote } from "../store/Quotes/quotes-actions";
 
 const NewQuote = () => {
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const quotesState: QuotesState = useSelector(
+    (storeState: any) => storeState.quotes
+  );
+  const dispatch = useDispatch();
 
   const addQuoteHandler = (quote: Quote) => {
-    setLoading(true);
-    console.log(quote);
-    setLoading(false);
+    dispatch(addQuote(quote));
     history.push("/");
   };
 
   return (
     <div>
-      <QuoteForm isLoading={loading} onAddQuote={addQuoteHandler} />
+      <QuoteForm isLoading={quotesState.loading} onAddQuote={addQuoteHandler} />
     </div>
   );
 };
