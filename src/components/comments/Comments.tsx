@@ -26,17 +26,14 @@ const Comments: React.FC<ICommentsProp> = (props) => {
   const retrieveComments = useCallback(async () => {
     try {
       const commentsData = await fetchComments(props.quoteId.toString());
-      const commentModels = convertCommentsToModel(commentsData);
-      setComments(commentModels);
-      return comments;
+      setComments(commentsData);
     } catch (error) {
       console.log("There was error trying to get comments");
     }
-  }, [])
+  }, [props.quoteId]);
 
   useEffect(() => {
     retrieveComments();
-    // return setComments(INITIAL_COMMENTS);
   }, [retrieveComments]);
 
   return (
@@ -58,23 +55,5 @@ const Comments: React.FC<ICommentsProp> = (props) => {
     </section>
   );
 };
-
-function convertCommentsToModel(commentsObj: any) {
-  const jsonComment = Object.keys(commentsObj).map((key) => commentsObj[key]);
-  const allComments = Object.keys(jsonComment[0]).map(
-    (key) => jsonComment[0][key]
-  );
-
-  const commentModels = allComments.map((commentObj: any) => {
-    const comment: Comment = {
-      quoteId: commentObj.quoteId,
-      text: commentObj.text,
-      id: commentObj.quoteId + Math.random(),
-    };
-    return comment;
-  });
-
-  return commentModels;
-}
 
 export default Comments;

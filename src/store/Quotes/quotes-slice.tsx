@@ -25,11 +25,8 @@ const quotesSlice = createSlice({
     getQuote: (state: QuotesState, action: PayloadAction<Quote>) => {
       state.selectedQuote = action.payload;
     },
-    getQuotes: (
-      state: QuotesState,
-      action: PayloadAction<any>
-    ) => {
-      state.quotes = transformQuotes(action.payload);
+    getQuotes: (state: QuotesState, action: PayloadAction<any>) => {
+      state.quotes = action.payload;
     },
     setLoading: (state: QuotesState, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -39,18 +36,6 @@ const quotesSlice = createSlice({
     },
   },
 });
-
-function transformQuotes(dataObj: any): Quote[] {
-  const jsonQuotes = Object.keys(dataObj).map((key) => dataObj[key]);
-  return jsonQuotes.map((quoteObj) => {
-    const quote: Quote = {
-      id: quoteObj.id,
-      author: quoteObj.author,
-      text: quoteObj.text,
-    };
-    return quote;
-  });
-}
 
 export const quoteActions = quotesSlice.actions;
 

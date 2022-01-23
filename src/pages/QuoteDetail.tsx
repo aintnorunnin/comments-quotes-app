@@ -3,8 +3,9 @@ import { Route, Link, useParams, useRouteMatch } from "react-router-dom";
 import HighlightedQuote from "../components/quotes/HighlightedQuote";
 import Comments from "../components/comments/Comments";
 import Quote from "../models/Quote";
-import { useSelector } from "react-redux";
-import { QuotesState } from "../store/Quotes/quotes-slice";
+import { useEffect } from "react";
+import { fetchQuote } from "../store/storeApi";
+import { useState } from "react";
 
 interface QuoteDetailURLParams {
   quoteId: string;
@@ -13,13 +14,15 @@ interface QuoteDetailURLParams {
 const QuoteDetail = () => {
   const params = useParams<QuoteDetailURLParams>();
   const match = useRouteMatch();
-  const quotesState: QuotesState = useSelector(
-    (storeState: any) => storeState.quotes
-  );
+  const [quote, setQuote] = useState<Quote>()
 
-  const quote: Quote | undefined = quotesState.quotes.find(
-    (quote) => quote.id.toString() === params.quoteId
-  );
+  useEffect(() => {
+    async function getQuote() {
+      const quote = await fetchQuote(params.quoteId)
+      setQuote(quote)
+    }
+    getQuote();
+  }, [params.quoteId]);
 
   if (!quote) {
     return <p>No Quote Found</p>;
@@ -36,7 +39,7 @@ const QuoteDetail = () => {
       </Route>
 
       <Route path={`${match.url}/comments`}>
-        <Comments quoteId={quote.id}/>
+        <Comments quoteId={quote.id} />
       </Route>
     </div>
   );
